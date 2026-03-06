@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mohammad Hoda — Analytics Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d;
+    --paper: #f5f2ec;
+    --accent: #c84b31;
+    --accent2: #1a3a5c;
+    --muted: #7a7265;
+    --rule: #d8d3c8;
+    --card-bg: #fffefb;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── GRAIN OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.6;
+  }
+
+  /* ── LAYOUT ── */
+  .site-wrapper {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(245, 242, 236, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+    padding: 18px 0;
+  }
+
+  nav .inner {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 20px;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: -0.5px;
+  }
+
+  .nav-logo span { color: var(--accent); }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 32px;
+  }
+
+  nav a {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    text-transform: lowercase;
+    transition: color 0.2s;
+  }
+
+  nav a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 100px 0 80px;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.1s;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(44px, 7vw, 72px);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -2px;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.25s;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--muted);
+    max-width: 520px;
+    line-height: 1.65;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.4s;
+  }
+
+  .hero-sub strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    margin-top: 44px;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.55s;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--ink);
+    color: var(--paper);
+    text-decoration: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: lowercase;
+    padding: 14px 28px;
+    border: 1px solid var(--ink);
+    transition: all 0.2s;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--ink);
+    text-decoration: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: lowercase;
+    padding: 14px 28px;
+    border: 1px solid var(--rule);
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--ink);
+  }
+
+  .hero-number {
+    position: absolute;
+    right: 0;
+    top: 60px;
+    font-family: 'Playfair Display', serif;
+    font-size: 160px;
+    font-weight: 900;
+    color: var(--rule);
+    line-height: 1;
+    user-select: none;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards 0.7s;
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 80px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 48px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  /* ── ABOUT ── */
+  .about-text {
+    font-size: 19px;
+    font-weight: 300;
+    line-height: 1.75;
+    color: var(--ink);
+  }
+
+  .about-text p + p { margin-top: 20px; }
+
+  .about-text strong {
+    font-weight: 500;
+    color: var(--accent2);
+  }
+
+  .about-text a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* ── EXPERIENCE ── */
+  .exp-list { display: flex; flex-direction: column; gap: 0; }
+
+  .exp-item {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 32px;
+    padding: 36px 0;
+    border-bottom: 1px solid var(--rule);
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .exp-item.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  .exp-item:last-child { border-bottom: none; }
+
+  .exp-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .exp-period {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  .exp-company {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-top: 6px;
+  }
+
+  .exp-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 12px;
+  }
+
+  .exp-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .exp-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 14px;
+  }
+
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    padding: 3px 10px;
+    background: var(--card-bg);
+    border: 1px solid var(--rule);
+    color: var(--muted);
+  }
+
+  /* ── SKILLS ── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .skill-block {
+    background: var(--card-bg);
+    border: 1px solid var(--rule);
+    padding: 28px;
+  }
+
+  .skill-block-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--ink);
+  }
+
+  .skill-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 5px 12px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    color: var(--ink);
+    letter-spacing: 0.03em;
+    transition: all 0.15s;
+    cursor: default;
+  }
+
+  .pill:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .pill.highlight {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+
+  /* ── PROJECTS ── */
+  .project-card {
+    background: var(--card-bg);
+    border: 1px solid var(--rule);
+    padding: 36px;
+    margin-bottom: 16px;
+    position: relative;
+    transition: box-shadow 0.2s;
+  }
+
+  .project-card:hover {
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+
+  .project-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
+
+  .project-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  .project-status {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 3px 10px;
+    background: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+    letter-spacing: 0.05em;
+  }
+
+  .project-status.wip {
+    background: #fff8e1;
+    color: #f57f17;
+    border-color: #ffe082;
+  }
+
+  .project-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+
+  .project-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.65;
+    margin-bottom: 20px;
+  }
+
+  .project-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 1px;
+    transition: opacity 0.15s;
+  }
+
+  .project-link:hover { opacity: 0.7; }
+
+  /* ── CERTS ── */
+  .certs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .cert-card {
+    background: var(--card-bg);
+    border: 1px solid var(--rule);
+    padding: 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    transition: box-shadow 0.2s;
+  }
+
+  .cert-card:hover { box-shadow: 3px 3px 0 var(--rule); }
+
+  .cert-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--accent2);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .cert-name {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+
+  .cert-issuer {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    border-bottom: none;
+    padding-bottom: 100px;
+  }
+
+  .contact-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    margin-bottom: 20px;
+  }
+
+  .contact-sub {
+    font-size: 16px;
+    color: var(--muted);
+    margin-bottom: 40px;
+    max-width: 440px;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .social-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 2px;
+    border-bottom: 1px solid var(--ink);
+    transition: color 0.15s, border-color 0.15s;
+  }
+
+  .social-link:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 28px 0;
+  }
+
+  footer .inner {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer p {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 600px) {
+    .site-wrapper { padding: 0 20px; }
+    nav .inner { padding: 0 20px; }
+    footer .inner { padding: 0 20px; flex-direction: column; gap: 12px; text-align: center; }
+    .hero-number { display: none; }
+    .exp-item { grid-template-columns: 1fr; gap: 12px; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .certs-grid { grid-template-columns: 1fr; }
+    nav ul { gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="inner">
+    <a class="nav-logo" href="#">M<span>.</span>H</a>
+    <ul>
+      <li><a href="#about">about</a></li>
+      <li><a href="#experience">experience</a></li>
+      <li><a href="#projects">projects</a></li>
+      <li><a href="#contact">contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="site-wrapper">
+  <section class="hero" id="home">
+    <div class="hero-eyebrow">Analytics Engineer · Greater Toronto Area</div>
+    <h1>Hi, I'm<br><em>Mohammad.</em></h1>
+    <p class="hero-sub">
+      I turn raw operational data into <strong>trusted metrics, clean data marts, and dashboards</strong> that stakeholders actually trust. Over a decade building enterprise data warehouse solutions across SAP HANA, SQL Server, and Power BI.
+    </p>
+    <div class="hero-cta">
+      <a href="mailto:hodashiyam@gmail.com" class="btn-primary">↗ get in touch</a>
+      <a href="#experience" class="btn-secondary">view experience</a>
+    </div>
+    <div class="hero-number">12</div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-label">about</div>
+    <div class="about-text">
+      <p>
+        I'm an analytics-focused data professional with <strong>over 12 years of experience</strong> building and supporting enterprise data warehouse solutions — from custom SAP HANA development to SQL Server data marts and Power BI reporting layers.
+      </p>
+      <p>
+        My sweet spot is the space between raw operational data and business decisions: designing <strong>dimensional models, standardising KPI logic, and building the semantic layer</strong> that gives analysts a single version of the truth.
+      </p>
+      <p>
+        I'm currently completing a <strong>personal analytics engineering project</strong> on the Wide World Importers dataset — building a production-grade star schema data mart, a suite of advanced SQL analyses, and a three-page executive Power BI dashboard from scratch. Ask me about it.
+      </p>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-label">experience</div>
+    <div class="exp-list">
+
+      <div class="exp-item">
+        <div class="exp-meta">
+          <div class="exp-period">Apr 2024 — Present</div>
+          <div class="exp-company">Zakiant Technologies</div>
+        </div>
+        <div>
+          <div class="exp-title">Data Consultant</div>
+          <p class="exp-desc">
+            Designing structured data models that transform raw operational data into business-ready reporting datasets. Developing advanced SQL transformations to standardise KPI calculations and ensure metric consistency. Supporting version-controlled deployment of database changes in controlled production releases.
+          </p>
+          <div class="exp-tags">
+            <span class="tag">SQL Server</span>
+            <span class="tag">Dimensional Modeling</span>
+            <span class="tag">KPI Standardisation</span>
+            <span class="tag">Power BI</span>
+            <span class="tag">Data Governance</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-meta">
+          <div class="exp-period">Mar 2022 — Dec 2023</div>
+          <div class="exp-company">Accenture</div>
+        </div>
+        <div>
+          <div class="exp-title">Application Development Team Lead — SAP BW & Reporting</div>
+          <p class="exp-desc">
+            Led enterprise reporting initiatives translating raw warehouse data into standardised business metrics. Designed SQL-based transformation logic for finance and operational KPIs. Conducted data lineage analysis and cross-system reconciliation. Mentored team members on SQL optimisation and dimensional modeling best practices.
+          </p>
+          <div class="exp-tags">
+            <span class="tag">SAP BW</span>
+            <span class="tag">Team Lead</span>
+            <span class="tag">Data Lineage</span>
+            <span class="tag">Finance KPIs</span>
+            <span class="tag">Mentoring</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-meta">
+          <div class="exp-period">Nov 2017 — Mar 2022</div>
+          <div class="exp-company">Accenture</div>
+        </div>
+        <div>
+          <div class="exp-title">Senior Analyst — SAP BW & HANA Development</div>
+          <p class="exp-desc">
+            Developed SQLScript procedures and calculation views supporting analytics and enterprise reporting. Performed query tuning and execution plan analysis to improve reporting performance. Supported migration of legacy reporting systems to modern data warehouse environments.
+          </p>
+          <div class="exp-tags">
+            <span class="tag">SAP HANA</span>
+            <span class="tag">SQLScript</span>
+            <span class="tag">Query Tuning</span>
+            <span class="tag">ETL</span>
+            <span class="tag">DWH Migration</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-meta">
+          <div class="exp-period">Dec 2013 — Nov 2017</div>
+          <div class="exp-company">Accenture</div>
+        </div>
+        <div>
+          <div class="exp-title">Application Development Analyst — SAP HANA</div>
+          <p class="exp-desc">
+            Developed calculation views and SQL-based logic supporting enterprise reporting requirements. Assisted in production support including troubleshooting data inconsistencies and performance issues. Collaborated with senior team members to implement business logic within the database layer.
+          </p>
+          <div class="exp-tags">
+            <span class="tag">SAP HANA</span>
+            <span class="tag">Calculation Views</span>
+            <span class="tag">Production Support</span>
+            <span class="tag">Data Validation</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-label">skills</div>
+    <div class="skills-grid">
+      <div class="skill-block">
+        <div class="skill-block-title">Analytics Engineering</div>
+        <div class="skill-pills">
+          <span class="pill highlight">Advanced SQL</span>
+          <span class="pill highlight">Dimensional Modeling</span>
+          <span class="pill">Star Schema</span>
+          <span class="pill">Snowflake Schema</span>
+          <span class="pill">KPI Frameworks</span>
+          <span class="pill">Semantic Layer</span>
+          <span class="pill">CTEs</span>
+          <span class="pill">Window Functions</span>
+          <span class="pill">Stored Procedures</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <div class="skill-block-title">Platforms & Tools</div>
+        <div class="skill-pills">
+          <span class="pill highlight">SQL Server</span>
+          <span class="pill highlight">SAP HANA</span>
+          <span class="pill highlight">Power BI</span>
+          <span class="pill">DAX</span>
+          <span class="pill">SAP BW</span>
+          <span class="pill">Azure</span>
+          <span class="pill">Python</span>
+          <span class="pill">Git</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <div class="skill-block-title">Data Practices</div>
+        <div class="skill-pills">
+          <span class="pill">Data Governance</span>
+          <span class="pill">ETL Design</span>
+          <span class="pill">Data Lineage</span>
+          <span class="pill">Reconciliation</span>
+          <span class="pill">SCD Type 2</span>
+          <span class="pill">Data Quality</span>
+          <span class="pill">Performance Tuning</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <div class="skill-block-title">Other</div>
+        <div class="skill-pills">
+          <span class="pill">Agile / Scrum</span>
+          <span class="pill">Stakeholder Mgmt</span>
+          <span class="pill">CI/CD Awareness</span>
+          <span class="pill">Jira</span>
+          <span class="pill">Mentoring</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-label">projects</div>
+
+    <div class="project-card">
+      <div class="project-card-header">
+        <span class="project-year">2025 – Present</span>
+        <span class="project-status wip">In Progress</span>
+      </div>
+      <div class="project-title">WWI Analytics Engineering Portfolio</div>
+      <p class="project-desc">
+        An end-to-end analytics engineering project on Microsoft's Wide World Importers dataset. Building a production-grade star schema data mart in SQL Server, a suite of 12 advanced SQL analyses covering window functions, CTE chains, stored procedures, and query performance tuning, plus a three-page executive Power BI dashboard with DAX measures, time intelligence, and cross-filtering. Packaged with full documentation and hosted on GitHub.
+      </p>
+      <div class="exp-tags" style="margin-bottom: 20px;">
+        <span class="tag">SQL Server</span>
+        <span class="tag">Star Schema</span>
+        <span class="tag">SCD Type 2</span>
+        <span class="tag">Power BI</span>
+        <span class="tag">DAX</span>
+        <span class="tag">Window Functions</span>
+        <span class="tag">GitHub</span>
+      </div>
+      <a href="https://github.com/hodashiyam" class="project-link" target="_blank">view on github →</a>
+    </div>
+
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section id="certs">
+    <div class="section-label">certifications</div>
+    <div class="certs-grid">
+      <div class="cert-card">
+        <div class="cert-icon">⊞</div>
+        <div>
+          <div class="cert-name">Azure Data Engineer Associate</div>
+          <div class="cert-issuer">Microsoft · DP-203</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">⊞</div>
+        <div>
+          <div class="cert-name">Azure Data Fundamentals</div>
+          <div class="cert-issuer">Microsoft · DP-900</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">⊞</div>
+        <div>
+          <div class="cert-name">Azure Fundamentals</div>
+          <div class="cert-issuer">Microsoft · AZ-900</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">✦</div>
+        <div>
+          <div class="cert-name">Professional Scrum Master I</div>
+          <div class="cert-issuer">Scrum.org · PSM I</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="section-label">education</div>
+    <div class="exp-list">
+      <div class="exp-item" style="grid-template-columns: 1fr 2fr;">
+        <div class="exp-meta">
+          <div class="exp-period">2024</div>
+          <div class="exp-company">University of Toronto</div>
+        </div>
+        <div>
+          <div class="exp-title">Data Science Certificate</div>
+          <p class="exp-desc">Data Science Institute, University of Toronto.</p>
+        </div>
+      </div>
+      <div class="exp-item" style="grid-template-columns: 1fr 2fr;">
+        <div class="exp-meta">
+          <div class="exp-period">—</div>
+          <div class="exp-company">University</div>
+        </div>
+        <div>
+          <div class="exp-title">Bachelor of Technology</div>
+          <p class="exp-desc">Computer Science & Engineering.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-label">contact</div>
+    <h2 class="contact-heading">Let's work<br><em style="font-family:'Playfair Display',serif;font-style:italic;color:var(--accent);">together.</em></h2>
+    <p class="contact-sub">
+      Open to Analytics Engineer, BI Developer, and Data Analyst opportunities in the Greater Toronto Area and remote. No recruiters selling services, please.
+    </p>
+    <div class="social-links">
+      <a href="mailto:hodashiyam@gmail.com" class="social-link">✉ email</a>
+      <a href="https://linkedin.com/in/shiyamhoda" class="social-link" target="_blank">↗ linkedin</a>
+      <a href="https://github.com/hodashiyam" class="social-link" target="_blank">↗ github</a>
+    </div>
+  </section>
+
+</div><!-- /site-wrapper -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="inner">
+    <p>© 2025 Mohammad Hoda</p>
+    <p>647-273-4049 · hodashiyam@gmail.com · Greater Toronto Area</p>
+  </div>
+</footer>
+
+<script>
+  // Scroll-reveal for experience items
+  const items = document.querySelectorAll('.exp-item');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  items.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
